@@ -1,0 +1,17 @@
+{
+  "name": "201611blog",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "sunyimingde <920118547@qq.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

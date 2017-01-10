@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>add</title>
+    <link rel="stylesheet" href="/css/reset.min.css">
+    <link rel="stylesheet" href="/css/animate.css">
+    <link rel="stylesheet" href="/lib/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/lib/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/dist/summernote.css">
+    <link rel="stylesheet" href="/css/public.css">
+    <link rel="stylesheet" href="/css/add.css">
+</head>
+<body>
+<div class="containerBox">
+    <header class="header" id="header">
+        <div class="header-inner clear">
+            <div class="site-meta">
+                <div>
+                    <a href="/" class="brand">
+                        <span class="logo-line-before">
+                            <i ></i>
+                        </span>
+                        <h1 class="site-title">哈哈哈哈</h1>
+                        <span class="logo-line-after">
+                            <i ></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <nav class="site-nav clear">
+                <div class="site-search">
+                    <form class="fa site-search-form">
+                        <input type="text" class=" st-search-input st-default-search-input">
+                    </form>
+                </div>
+                <ul class="menu">
+                    <li class="menu-item menu-item-home menu-item-active">
+                        <a href="/">
+                            <i class="menu-item-icon fa fa-home fa-fw"></i>
+                            首页
+                        </a>
+                    </li>
+                    <li class="menu-item menu-item-home menu-item-active">
+                        <a href="/list">
+                            <i class="menu-item-icon fa fa-archive fa-fw"></i>
+                            目录
+                        </a>
+                    </li>
+                    <%if(user){%>
+                    <li class="menu-item menu-item-home menu-item-active">
+                        <a href="/article/add">
+                            <i class="menu-item-icon fa fa-user fa-fw"></i>
+                            发表文章
+                        </a>
+                    </li>
+                    <li class="menu-item menu-item-home menu-item-active">
+                        <a href="/user/logout">
+                            <i class="menu-item-icon fa fa-user fa-fw"></i>
+                            退出
+                        </a>
+                    </li>
+                    <%}else{%>
+                    <li class="menu-item menu-item-home menu-item-active">
+                        <a href="/user/login">
+                            <i class="menu-item-icon fa fa-user fa-fw"></i>
+                            登陆
+                        </a>
+                    </li>
+                    <%}%>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="main" id="main">
+        <div class="main-inner">
+            <form role="form"  class="form-horizontal">
+                <div class="form-group title">
+                    <label for="title" class="control-label col-md-2 text-">标题：</label>
+                    <div class="col-md-10 input-group">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-tag"></span>
+                        </div>
+                        <input class="form-control" type="text" id="title" name="title" required>
+                    </div>
+                </div>
+                <textarea id="summernote">
+
+                </textarea>
+                <button class="btn btn-success" type="button" onclick="add()">发表文章</button>
+            </form>
+        </div>
+    </main>
+    <footer class="footer" id="footer">
+        <div class="footer-inner">
+            <div class="copyright">
+                ©
+                <span>2017</span>
+                <span class="with-love">
+                <i class="fa fa-heart"></i>
+            </span>
+                <span class="author">M</span>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
+<script src="/lib/jquery/jquery.js"></script>
+<script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="/dist/summernote.js"></script>
+<script src="/dist/lang/summernote-zh-CN.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            height: 400,
+            minHeight: 300,
+            maxHeight: 300,
+            width:700,
+            lang:'zh-CN',
+            // 重写图片上传
+            onImageUpload: function(files, editor, $editable) {
+                sendFile(files[0],editor,$editable);
+            }
+        });
+    });
+
+    function add() {
+        console.log($('#summernote').summernote('code'))
+        if(/^\s*$/.test($('#title').val())){
+            alert('标题不能为空');
+            return;
+        }
+        var obj = {};
+        obj.title = $('#title').val();
+        obj.content = $('#summernote').summernote('code');
+        $.ajax({
+            type:'post',
+            url:'/article/add',
+            data:obj,
+            dataType:'json',
+            success:function (result) {
+                window.location.href='/list';
+            }
+        })
+    }
+    $('.title').onfocus;
+    $('.title').css('left',$('#summernote').offset().left-130)
+</script>
