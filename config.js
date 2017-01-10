@@ -1,1 +1,1 @@
-exports.dbUrl = 'mongodb://127.0.0.1/blog';
+exports.dbUrl = 'mongodb://112.74.167.226/blog';
